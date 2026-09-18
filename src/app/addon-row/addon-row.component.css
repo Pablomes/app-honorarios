@@ -1,0 +1,98 @@
+.row {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 3% 1fr 12% 12% 12% 12% 12% 3%;
+    align-items: center;
+    padding: 0.75rem 0.5rem;
+    gap: 0.5rem;
+    font-size: 0.9rem;
+    background-color: white;
+    border: 1px solid var(--secondary-colour);
+    animation: table-row-enter 180ms ease-out both;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.row.disabled {
+    background-color: var(--background-colour) 90%;
+}
+
+@keyframes table-row-enter {
+    from {
+        opacity: 0;
+        transform: translateY(-0.5rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.row-exit {
+    animation: table-row-exit 90ms ease-in both;
+}
+
+@keyframes table-row-exit {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-0.5rem);
+    }
+}
+
+.table-cell {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 0.35rem;
+    text-align: center;
+    align-self: center;
+    justify-self: center;
+    animation: fade-in 0.3s ease;
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.table-cell-exit {
+    animation: fade-out 0.3s ease;
+}
+
+.addon-use-value {
+    position: relative;
+    justify-content: center;
+    text-align: center;
+}
+
+.addon-use-value checkbox-option {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.addon-inline-popup {
+    display: inline-flex;
+    align-items: baseline;
+    vertical-align: baseline;
+    white-space: nowrap;
+    margin-left: 0.25rem;
+}

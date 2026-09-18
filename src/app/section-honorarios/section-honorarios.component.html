@@ -1,0 +1,10 @@
+<div class="section">
+    <div class="section-header">
+        <div class="section-title">  {{ sectionTitle() }}</div>
+
+        <ng-content select="[section-header-extra]"></ng-content>
+    </div>
+    <div class="section-content">
+        <ng-content></ng-content>
+    </div>
+</div>

@@ -1,0 +1,23 @@
+<div
+  class="floating-select"
+  [class.has-value]="!!selectedOption"
+  [class.is-disabled]="disabled()"
+  [class.bold]="boldLabel()"
+  (mousedown)="onContainerPress()"
+>
+  <p-select
+    [(ngModel)]="selectedOption"
+    [options]="values()"
+    [disabled]="disabled()"
+    [placeholder]="''"
+    [fluid]="true"
+    [appendTo]="'body'"
+    [panelStyleClass]="'percentage-picker-panel'"
+    (ngModelChange)="selectOption($event)"
+    (keydown)="onSelectKeydown($event)"
+    (onBlur)="onSelectBlur()"
+    (onShow)="onSelectShow()"
+    (onHide)="onSelectHide()"
+  ></p-select>
+  <label>{{ placeholder() }}</label>
+</div>

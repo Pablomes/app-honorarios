@@ -1,0 +1,33 @@
+<div
+  class="number-input-wrapper"
+  [hidden]="hidden()"
+  [class.is-focused]="isFocused"
+  [class.is-hovered]="isHovered"
+  [class.is-filled]="!!rawValue()"
+  [style.width]="inputWidth()"
+  [class.has-error]="hasError()"
+  [class.has-warning]="hasWarning()"
+  [class.not-interacted]="!interacted() && isRequired()"
+>
+  <p-inputnumber
+    class="number-input-box"
+    inputId="number-input"
+    [ngModel]="rawValue() ? +rawValue().replace(',', '.') : null"
+    (ngModelChange)="onInputValueChange($event)"
+    (onFocus)="onFocus()"
+    (onBlur)="onBlur()"
+    (mouseenter)="onMouseEnter()"
+    (mouseleave)="onMouseLeave()"
+    [locale]="'de-DE'"
+    [useGrouping]="true"
+    mode="decimal"
+    [minFractionDigits]="0"
+    [maxFractionDigits]="0"
+    [allowEmpty]="true"
+    [showButtons]="false"
+    [suffix]="endingSymbol() ? ' ' + endingSymbol() : ''"
+    autocomplete="off"
+    [min]="0"
+    [max]="maxValue()"
+  />
+</div>

@@ -1,0 +1,78 @@
+.checkbox-option {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5em;
+    align-items: center;
+    transition: grid-row 0.3s ease;
+    transition: grid-column 0.3s ease;
+    user-select: none;
+    transition: grid-row 0.3s ease;
+
+    --hover-colour: none;
+}
+
+.checkbox-option:hover {
+    --hover-colour: color-mix(in srgb, var(--primary-colour) 20%, var(--background-colour));
+}
+
+polyline {
+    stroke: transparent;
+}
+
+.checkbox-option:hover polyline {
+    stroke: white;
+}
+
+.box.chosen polyline {
+    stroke: white;
+}
+
+.box {
+    cursor: pointer;
+    width: 18px;
+    height: 18px;
+    border: #9ca3af solid 1px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--background-colour);
+    background-color: var(--hover-colour);
+    transition: background-color 0.15s ease;
+}
+
+.box.chosen{
+    background-color: var(--primary-colour);
+}
+
+.label-text {
+    font-size: 0.85rem;
+}
+
+.grow-slide {
+    animation: grow-slide 0.3s ease;
+}
+
+.fade-in {
+    animation: fade-in 0.3s ease;
+}
+
+@keyframes grow-slide {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateX(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateX(0);
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}

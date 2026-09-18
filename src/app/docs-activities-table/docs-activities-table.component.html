@@ -1,0 +1,35 @@
+<div class="table-rows">
+    <div class="table-header">
+        <div class="left-align">
+            Documentos y actividades
+        </div>
+        @for (use of useCases(); track $index) {
+            <div class="use-title">
+                {{ getUseLabel(use, $index) }}
+            </div>
+        }
+        <div style="grid-column: -3 / -2;">
+            PEM Uso <br> €
+        </div>
+    </div>
+
+    <div class="table-row">
+        <simple-dropdown [boldLabel]="true" [placeholder]="'Seleccione tipo de proyecto'" [values]="projectTypes()" [resetKey]="tabIndex()" (selectedValueOut)="onProjectTypeChange($event)"></simple-dropdown>
+
+        @for (use of getValues(projectState); track $index) {
+        <div class="table-cell">
+            {{  formatMoney(use) }} {{ " €" }}
+        </div>
+    }
+
+    <div class = "table-cell" style="grid-column: -3 / -2;">
+        {{ formatMoney(totalPEMProject()) + " €"}}
+    </div>
+    </div>
+
+    @for (doc of validDocs(); track doc.id) {
+        <addon-row [addonName]="doc.name" [addonId]="doc.id" [useCases]="getValues(doc.id)" [toggleUseCaseEnabled]="doc.toggleUseCase" [infoComment]="doc.info"
+            (addonEnabledOuput)="handleAddonChange($event)"></addon-row>
+    }
+
+</div>

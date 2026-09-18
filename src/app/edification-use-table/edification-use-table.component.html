@@ -1,0 +1,78 @@
+<div class="table-rows">
+    <div class="table-header">
+        <div class="left-align">
+            Usos
+        </div>
+        <div>
+            Nº <br>Plantas repetidas <span style="color: red;">*</span>
+        </div>
+        <div>
+            Superficie <span style="color: red;">*</span><br> m² 
+        </div>
+        <div>
+            PEM unitario  <span style="color: red;">*</span> <br> €/m²
+        </div>
+        <div>
+            PEM instalaciones <span> <info-popup [title]="'PEM instalaciones'" > <div comment>Indicar el PEM de las instalaciones cuando sea independiente del PEM de la obra. Será este el valor empleado en el cálculo del proyecto de instalaciones.</div> </info-popup> </span>
+        </div>
+        <div>
+            PEM Uso <br> €
+        </div>
+    </div>
+
+    @for (use of edificationUses; track use.id) {
+        <div class="table-row" animate.leave="table-row-exit">
+            <div class="table-cell">
+                {{$index + 1}}
+            </div>
+            <div class="table-cell">
+                <input-field [isRequired]="true" [regexPattern]="wordRegex" (outputValue)="use.name = $event; emitValidity()"></input-field>
+            </div>
+            <div class="table-cell">
+                <number-input-field [isRequired]="true" [maxLength]="10" [endingSymbol]="''" (outputValue)="use.repeatedFloors = $event; this.emitValidity()"></number-input-field>
+            </div>
+            <div class="table-cell">
+                <number-input-field [isRequired]="true" [maxLength]="10" [endingSymbol]="'m²'" (outputValue)="use.area = $event; this.emitValidity()"></number-input-field>
+            </div>
+            <div class="table-cell">
+                <number-input-field [isRequired]="true" [maxLength]="10" [endingSymbol]="'€/m²'" (outputValue)="use.unitPEM = $event; this.emitValidity()"></number-input-field>
+            </div>
+            <div class="table-cell">
+                <number-input-field [isRequired]="false" [maxLength]="10" [endingSymbol]="'€'" (outputValue)="use.installationPEM = $event; this.emitValidity()"></number-input-field>
+            </div>
+            <div class="table-cell">
+                {{ formatBigCurrency(totalPEM(use)) }}
+            </div>
+            <div class="table-cell">
+                <button
+                    class="delete-button"
+                    type="button"
+                    aria-label="Eliminar uso"
+                    (click)="removeEdificationUse(use.id)">
+                </button>
+            </div>
+        </div>
+    } @empty {
+        <div class="full-row">
+            <div>
+                No hay usos de edificación disponibles.
+            </div>
+        </div>
+    }
+
+</div>
+
+<div class="add-row">
+    <button
+        class="add-button"
+        [class.disabled]="edificationUses.length >= 4"
+        type="button"
+        aria-label="Añadir uso de edificación"
+        (click)="addEdificationUse()">
+        <span class="add-icon" aria-hidden="true"></span>
+        <span>Añadir uso</span>
+    </button>
+    @if (edificationUses.length >= 4) {
+        <div class="error-label" animate.leave="error-label-exit">No se consideran más de 4 usos de edificación.</div>
+    }
+</div>

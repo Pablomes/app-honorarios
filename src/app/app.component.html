@@ -1,0 +1,165 @@
+<div class="header">
+  <div class="link-container">
+    <a class="contact-link" href="https://www.five.es/contacto" target="_blank" rel="noopener noreferrer">Contacto</a>
+    <a class="ive-link" href="https://www.five.es/" target="_blank" rel="noopener noreferrer">IVE ⟶</a>
+  </div>
+
+  <div class="title-toolbar">
+    <div class="logo-wrapper">
+      <img class="logo" src="/assets/images/LOGO_IVE_MIN.svg" alt="IVE">
+      <h1 class="app-title">Estimación del coste de la prestación de servicios de arquitectura e ingeniería</h1>
+    </div>
+  </div>
+</div>
+
+<div class="testDivide">
+  <main class="left-panel">
+    <div class="tabs">
+      <tab-selector (selectedTabIndex)="selectedTabIndex = $event; useCases = []; validInputs = []; projectType = ''; calculatedValues = {}; totalPEM = 0; projectCost = 0; additionalDocsCost = 0;"></tab-selector>
+    </div>
+
+    <div class="form-content">
+      <div class="mandatory-fields">
+        <div><span style="color: red;">*</span> Campo obligatorio</div>
+      </div>
+
+      <section-honorarios [sectionTitle]="'1. DATOS DE LA ACTUACIÓN'">
+        <textarea id="projectName" #ta (input)="projectName = ta.value" class="text-area" section-header-extra placeholder="Promotor e identificación de la actuación" rows="2"></textarea>
+        
+        @if (selectedTabIndex === 0) {
+          <edification-use-table
+            (edificationUsesOut)="onUseCasesChanged($event)"
+            (validOutput)="onValidInputChanged($event)">
+          </edification-use-table>
+        } @else if (selectedTabIndex === 1) {
+          <civil-works-use-table
+            (civilWorksUsesOut)="onUseCasesChanged($event)"
+            (validOutput)="onValidInputChanged($event)">
+          </civil-works-use-table>
+        } @else if (selectedTabIndex === 2) {
+          <urbanisation-use-table
+            (urbanisationUsesOut)="onUseCasesChanged($event)"
+            (validOutput)="onValidInputChanged($event)">
+          </urbanisation-use-table>
+        }
+        
+      </section-honorarios>
+
+      <div style="height: 1.5rem;"> </div>
+
+      <section-honorarios [sectionTitle]="'2. CONTENIDO DEL SERVICIO'">
+        <docs-activities-table [tabIndex]="selectedTabIndex" [useCases]="useCases"
+        [docs]="getDocs()"
+        [docsMap]="getDocsMap()" 
+        [values]="calculatedValues"
+        [projectTypes]="getProjectTypes()"
+        [projectTypeMap]="getProjectTypeMap()"
+        (docsInfoOutput)="onDocsInfoOutput($event)"
+        (projectTypeOutput)="projectType = $event">
+        </docs-activities-table>
+      </section-honorarios>
+    </div>
+
+  </main>
+
+  <aside class="right-panel">
+    <div class="summary-box-container">
+      <summary-box [estimatedCost]="estimatedCost" [projectType]="projectType === '' ? 'Actuación' : projectType"
+      [totalPEM]="totalPEM" [projectCost]="projectCost" [additionalDocsCost]="additionalDocsCost"></summary-box>
+    </div>
+  </aside>
+</div>
+
+<footer>
+  <div class="top-footer">
+    <div class="footer-content">
+      <div class="footer-col">
+        <img class="logo-gva" src="/assets/images/LOGO-IVE-GVA.svg" alt="IVE - Generalitat Valenciana">
+      </div>
+
+      <div class="footer-col footer-col-width-auto">
+        <h6 class="footer-title"> Instituto Valenciano de la Edificación </h6>
+        <div class="footer-list">
+          Universitat Politècnica de València<br>
+          Edificio 1 B, Puerta R (UPV)<br>
+          Camino de Vera, s/n. 46022 València<br>
+          Tel. +34 960 131 131<br>
+          <a class="footer-link" href="mailto:ive@five.es">ive@five.es</a>
+        </div>
+      </div>
+
+      <div class="footer-col footer-col-width-auto">
+        <h6 class="footer-title"> Atención al público </h6>
+        <div class="footer-separated-elems">
+          <div class="footer-list">
+            De 9:00 a 14:00 h de lunes a viernes<br>
+          </div>
+
+          <div class="social-media-row">
+            <a class="footer-logo-link side-padding" href="https://www.facebook.com/InstitutoValencianoEdificacion/" target="_blank" rel="noopener">
+              <i class="sm-brands facebook-icon icon-settings">
+              </i>
+            </a>
+
+            <a class="footer-logo-link side-padding" href="https://twitter.com/Fundacion_IVE" target="_blank" rel="noopener">
+              <div class="sm-brands icon-settings">
+                <img class="twitter-icon" src="/assets/images/X_twitter_logo.svg" alt="X / Twitter">
+              </div>
+            </a>
+
+            <a class="footer-logo-link side-padding" href="https://www.linkedin.com/company/ive" target="_blank" rel="noopener">
+              <i class="sm-brands linkedin-icon icon-settings">
+              </i>
+            </a>
+
+            <a class="footer-logo-link side-padding" href="https://www.youtube.com/user/InstitutoIVE" target="_blank" rel="noopener">
+              <i class="sm-brands youtube-icon icon-settings">
+              </i>
+            </a>
+
+            <a class="footer-logo-link side-padding" href="https://www.instagram.com/fundacion_ive/" target="_blank" rel="noopener">
+              <i class="sm-brands instagram-icon icon-settings">
+              </i>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="footer-col footer-col-width-auto">
+        <h6 class="footer-title"> TE PUEDE INTERESAR... </h6>
+        <div class="footer-list">
+          <a class="footer-link" href="https://xarxaloc.es/" target="_blank" rel="noopener">Red de oficinas XALOC</a> <br>
+          <a class="footer-link" href="https://registrochc.five.es/" target="_blank" rel="noopener">Registro CHC</a> <br>
+          <a class="footer-link" href="https://calab.es/" target="_blank" rel="noopener">CaLab</a> <br>
+          <a class="footer-link" href="https://habitatge.gva.es/es/web/arquitectura" target="_blank" rel="noopener">Generalitat Valenciana</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bottom-footer">
+    <div class="bottom-footer-row">
+      <div class="bottom-footer-elem bottom-footer-left-elem">
+        <a class="bottom-footer-link" href="https://www.five.es/condiciones-de-uso" target="_blank">Aviso legal</a>
+      </div>
+
+      <div class="bottom-footer-elem">
+        <a class="bottom-footer-link" href="https://www.five.es/proteccion-de-datos" target="_blank">Politica de privacidad</a>
+      </div>
+
+      <div class="bottom-footer-elem">
+        <a class="bottom-footer-link" href="https://www.five.es/politica-de-cookies" target="_blank">Politica de cookies</a>
+      </div>
+
+      <div class="bottom-footer-elem">
+        <a class="bottom-footer-link" href="https://www.five.es/condiciones-de-contratacion" target="_blank">Condiciones generales de contratación</a>
+      </div>
+
+      <div class="bottom-footer-elem">
+        <a class="bottom-footer-link" href="https://www.five.es/fundacion-ive/#perfil-del-contratante" target="_blank">Perfil del contratante</a>
+      </div>
+    </div>
+  </div>
+</footer>

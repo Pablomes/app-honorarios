@@ -1,0 +1,34 @@
+<div class="summary-box">
+    <div class="summary-cost-box">
+        <div class="cost-title"> COSTE ESTIMADO: </div>
+        <div class="summary-cost"> {{ formatMoney(estimatedCost()) }} </div>
+    </div>
+    <div class="summary-display">
+        <div class="progress-bars">
+            <div class="progress-bar">  <summary-progress-bar [title]="projectType()" [info]="formatMoney(projectCost())" [completionPercentage]="relativeProjectCost * 100"></summary-progress-bar>  </div>
+            <div class="progress-bar">  <summary-progress-bar [title]="'Documentación adicional'"  [info]="formatMoney(additionalDocsCost())" [completionPercentage]="relativeAdditionalDocsCost * 100"></summary-progress-bar>  </div>
+            <!-- <div class="progress-bar">  <summary-progress-bar [title]="'Modelo BIM'" [info]="formatMoney(BIMCost())" [completionPercentage]="relativeBIMCost * 100"></summary-progress-bar>  </div> -->
+        </div>
+        <div class="pem-info">
+            <div class="pem-total">
+                <div class="summary-text">PEM Total</div>
+            
+                <div class="summary-value"> {{ formatMoney(totalPEM()) }} </div>
+            </div>
+
+            <div class="pem-percentage">
+                <div class="summary-text">Coste/PEM</div>
+            
+                <div class="summary-value"> {{ relativeCost * 100 | number:'1.0-1' }} % </div>
+            </div>
+        </div>
+
+        <div class="download-button">
+            DESCARGA PDF
+        </div>
+
+        <div class="summary-footer">
+            Estimación orientativa, quedando siempre a criterio del licitador la adaptación de los cálculos a las características específicas de cada actuación.
+        </div>
+    </div>
+</div>

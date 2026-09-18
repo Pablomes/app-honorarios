@@ -1,0 +1,232 @@
+:host {
+  display: block;
+  width: 100%;
+  min-width: 0;
+}
+
+.floating-select {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  border-bottom: 2px solid var(--primary-colour);
+  transition: border-radius 120ms;
+  /*border: 2px solid var(--primary-colour);*/
+  /*border-radius: 12px;*/
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.floating-select.bold {
+  font-weight: bold;
+}
+
+.floating-select.is-disabled {
+  border-color: var(--secondary-colour);
+  cursor: not-allowed;
+}
+
+::ng-deep .floating-select .p-select {
+  width: calc(100% + 2px) !important;
+  max-width: calc(100% + 2px);
+  min-width: 0 !important;
+  overflow: hidden;
+  margin: -1px;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: inherit;
+  font-size: 0.9rem;
+}
+
+::ng-deep .floating-select .p-select .aria-label {
+  overflow: hidden;
+}
+
+::ng-deep .floating-select .p-select-label {
+  font-size: 0.9rem;
+  padding: 0.4rem 0 0.2rem;
+  color: inherit;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+::ng-deep .floating-select .p-select-trigger {
+  width: 2.5rem;
+}
+
+::ng-deep .floating-select .p-select-dropdown-icon {
+  display: block;
+  width: 0.7rem;
+  height: 0.45rem;
+  background-color: var(--primary-colour);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  fill: none;
+  transform: translate(-0.2rem, 0.2rem);
+  color: transparent;
+}
+
+::ng-deep .floating-select .p-select-overlay {
+  position: absolute !important;
+  left: -2px !important;
+  right: -2px !important;
+  width: auto !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  border: 2px solid var(--primary-colour) !important;
+  border-radius: 0 0 4px 4px !important;
+  border-top: 2px dashed color-mix(in srgb, var(--primary-colour) 12%, var(--background-colour)) !important;
+  box-shadow: none !important;
+  overflow: hidden;
+
+  margin-top: -0px !important;
+  padding-top: 0px !important;
+
+  transform-origin: top center;
+  transition: none !important;
+  animation: dropdown-curtain 120ms ease-out;
+}
+
+::ng-deep .p-select-overlay.percentage-picker-panel {
+  border-top: 2px solid var(--primary-colour) !important;
+  border-bottom: 2px solid var(--primary-colour) !important;
+  box-shadow: none !important;
+  overflow: hidden;
+  z-index: 1200 !important;
+  transform-origin: top center;
+  transition: none !important;
+  animation: dropdown-curtain 120ms ease-out;
+  margin: 1px !important;
+}
+
+::ng-deep .percentage-picker-panel .p-select-list {
+  background: white !important;
+  padding: 0.25rem 0.4rem;
+}
+
+::ng-deep .percentage-picker-panel .p-select-option {
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  background: transparent !important;
+  padding: 0.55rem 0.5rem;
+  border-radius: 4px;
+  transition: background-color 120ms ease;
+  font-size: 0.9rem;
+}
+
+::ng-deep .percentage-picker-panel .p-select-option:not(.p-disabled):hover {
+  background-color: color-mix(in srgb, var(--primary-colour) 12%, var(--background-colour)) !important;
+}
+
+::ng-deep .percentage-picker-panel .p-select-option + .p-select-option {
+  border-top: 1px solid color-mix(in srgb, var(--primary-colour) 20%, transparent);
+}
+
+::ng-deep .floating-select .p-select-overlay .p-select-list {
+  background: var(--background-colour) !important;
+  padding: 0.25rem 0.4rem;
+}
+
+@keyframes dropdown-curtain {
+  from {
+    transform: translateY(-6px);
+    clip-path: inset(0 0 100% 0 round 0 0 12px 12px);
+    opacity: 1;
+  }
+
+  to {
+    transform: translateY(0);
+    clip-path: inset(0 0 0 0 round 0 0 12px 12px);
+    opacity: 1;
+  }
+}
+
+::ng-deep .floating-select .p-select-overlay .p-select-option {
+  text-align: center;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  background: transparent !important;
+  padding: 0.55rem 0.5rem;
+  border-radius: 4px;
+  transition: background-color 120ms ease;
+  font-size: 0.9rem;
+}
+
+::ng-deep .floating-select .p-select-overlay .p-select-option:not(.p-disabled):hover {
+  background-color: color-mix(in srgb, var(--primary-colour) 12%, var(--background-colour)) !important;
+}
+
+::ng-deep .floating-select .p-select-overlay .p-select-option + .p-select-option {
+  border-top: 1px solid color-mix(in srgb, var(--primary-colour) 20%, transparent);
+}
+
+.floating-select {
+  font-family: inherit;
+  color: inherit;
+}
+
+.floating-select label {
+  position: absolute;
+  bottom: 0.2rem;
+  left: 0.5rem;
+  right: 0.75rem;
+  transform: none;
+  transition: transform 0.15s ease, font-size 0.15s ease, color 0.15s ease, left 0.15s ease, width 0.2s ease;
+  pointer-events: none;
+  box-sizing: border-box;
+  display: block;
+  font-size: 0.9rem;
+  line-height: normal;
+  color: var(--darker-secondary-colour);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  z-index: 1;
+}
+
+.floating-select.is-active label,
+.floating-select.has-value label {
+  color: transparent;
+}
+
+.floating-select.has-value {
+    border-bottom-color: transparent;
+}
+
+::ng-deep .floating-select.has-value .p-select-dropdown-icon {
+    background-color: transparent;
+}
+
+.floating-select.has-value:hover,
+.floating-select.has-value:active {
+    border-bottom-color: var(--primary-colour);
+}
+
+::ng-deep .floating-select.has-value:hover .p-select-dropdown-icon,
+::ng-deep .floating-select.has-value:active .p-select-dropdown-icon {
+    background-color: var(--primary-colour);
+}
+
+.floating-select:has(.p-select[aria-expanded='true']),
+.floating-select:has(.p-select.p-select-open) {
+  border-bottom-color: transparent;
+}
+
+@media (max-width: 900px) {
+
+  ::ng-deep .percentage-picker-panel .p-select-option {
+    padding: 0.55rem 0rem;
+}
+
+
+}

@@ -1,0 +1,5 @@
+<div class="input-wrapper" [hidden]="hidden()" [class.is-focused]="isFocused" [class.is-hovered]="isHovered" [class.is-filled]="!!rawValue()" [style.width]="inputWidth()" [class.has-error]="hasError()" [class.has-warning]="hasWarning()" [class.not-interacted]="!interacted() && isRequired()">
+    <div class="input-with-suffix">
+        <input #inputEl pInputText class="input-box" id="input" type="text" [ngModel]="rawValue()" (ngModelChange)="onInputValueChange($event)" autocomplete="off" (focus)="onFocus()" (blur)="onBlur()" (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()"/>
+    </div>
+</div>

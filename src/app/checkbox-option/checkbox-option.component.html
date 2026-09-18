@@ -1,0 +1,14 @@
+<div class="checkbox-option" (click) = "selectOption()" animate.enter="grow-slide">
+    <div class="box" [class.chosen]="selected">
+        <div class="checkmark" animate.enter="fadeIn">
+            <svg width="12" height="10" viewBox="0 0 12 10">
+                <polyline points="1 5.5 4.5 9 11 1" stroke="#fff" stroke-width="2" fill="none"/>
+            </svg>
+        </div>
+    </div>
+
+
+    @if (labelMessage() != "") {
+        <label class="label-text"> {{ labelMessage() }} </label>
+    }
+</div>

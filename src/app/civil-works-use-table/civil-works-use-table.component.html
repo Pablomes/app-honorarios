@@ -1,0 +1,79 @@
+<div class="table-rows">
+    <div class="table-header">
+        <div class="left-align">
+            Tipo de actuación <span style="color: red;">*</span>
+        </div>
+        <div>
+
+        </div>
+        <div>
+            Medición
+        </div>
+        <div>
+            PEM unitario
+        </div>
+        <div>
+
+        </div>
+        <div>
+            PEM Act. <span style="color: red;">*</span> <br> €
+        </div>
+    </div>
+
+    @for (use of civilWorksUses; track use.id) {
+        <div class="table-row" animate.leave="table-row-exit">
+            <div class="table-cell">
+                {{$index + 1}}
+            </div>
+            <div class="table-cell">
+                <simple-dropdown [placeholder]="'Actuación de obra civil'" [values]="civilWorksTypes" (selectedValueOut)="use.type = $event; emitValidity()"></simple-dropdown>
+            </div>
+            <div class="table-cell">
+               
+            </div>
+            <div class="table-cell">
+                <number-input-field [isRequired]="false" [maxLength]="10" [endingSymbol]="getAreaEndingSymbol(use)" [value]="use.area" (outputValue)="onAreaChange(use, $event)"></number-input-field>
+            </div>
+            <div class="table-cell">
+                <number-input-field [isRequired]="false" [maxLength]="10" [endingSymbol]="getUnitPEMEndingSymbol(use)" [value]="use.unitPEM" (outputValue)="onUnitPEMChange(use, $event)"></number-input-field>
+            </div>
+            <div class="table-cell">
+                
+            </div>
+            <div class="table-cell">
+
+                <number-input-field [isRequired]="true" [maxLength]="10" [endingSymbol]="'€'" [value]="use.totalPEM" (outputValue)="onTotalPEMChange(use, $event)"></number-input-field>
+            </div>
+            <div class="table-cell">
+                <button
+                    class="delete-button"
+                    type="button"
+                    aria-label="Eliminar uso"
+                    (click)="removeCivilWorksUse(use.id)">
+                </button>
+            </div>
+        </div>
+    } @empty {
+        <div class="full-row">
+            <div>
+                No hay usos de obra civil disponibles.
+            </div>
+        </div>
+    }
+
+</div>
+
+<div class="add-row">
+    <button
+        class="add-button"
+        [class.disabled]="civilWorksUses.length >= 4"
+        type="button"
+        aria-label="Añadir uso de obra civil"
+        (click)="addCivilWorksUse()">
+        <span class="add-icon" aria-hidden="true"></span>
+        <span>Añadir uso</span>
+    </button>
+    @if (civilWorksUses.length >= 4) {
+        <div class="error-label" animate.leave="error-label-exit">No se consideran más de 4 usos de obra civil.</div>
+    }
+</div>

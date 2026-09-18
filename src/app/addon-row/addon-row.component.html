@@ -1,0 +1,32 @@
+<div class="row" animate.leave="row-exit" [class.disabled]="!addonEnabled">
+    <checkbox-option (selectedChange)="toggleAddon($event)"></checkbox-option>
+
+    <div class="addon-name">
+        {{ addonName()}}
+        @if (infoComment() !== "") {
+            <span class="addon-inline-popup">
+                <info-popup [title]="addonName()">
+                    <div comment> {{ infoComment() }} </div>
+                </info-popup>
+            </span>
+        }
+    </div>
+
+    @if (addonEnabled) {
+
+    @for (use of useCases(); track $index) {
+        <div class="addon-use-value table-cell">
+            @if(toggleUseCaseEnabled()) {
+                <checkbox-option [startSelected]="true" (selectedChange)="toggleUseCase($index, $event)"></checkbox-option>
+            }
+            {{ useCaseEnabled[$index] ? formatMoney(use) : 0 }} {{ " €" }}
+        </div>
+    }
+
+    <div class = "table-cell" animate.leave="table-cell-exit" style="grid-column: -3 / -2;">
+        {{ formatMoney(totalPEM()) + " €"}}
+    </div>
+
+}
+
+</div>

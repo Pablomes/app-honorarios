@@ -1,0 +1,9 @@
+<div class="progress-bar-container">
+    <div class="title-info">
+        <div class="title"> {{ title() }}</div>
+        <div class="info"> {{ info() }} </div>
+    </div>
+    <div class="progress-bar">
+        <div class="progress-bar-fill" [style.width.%]="completionPercentage()"></div>
+    </div>
+</div>

@@ -1,0 +1,78 @@
+<div class="table-rows">
+    <div class="table-header">
+        <div class="left-align">
+            Zonas de actuación
+        </div>
+        <div>
+            Superficie <br>Zona verde <span style="color: red;">*</span>
+        </div>
+        <div>
+            Superficie <br>Red viaria <span style="color: red;">*</span> 
+        </div>
+        <div>
+            PEM unitario<br>Zona verde<span style="color: red;">*</span> <br> €/m²
+        </div>
+        <div>
+            PEM unitario<br>Red viaria<span style="color: red;">*</span> <br> €/m²
+        </div>
+        <div>
+            PEM Zona <br> €
+        </div>
+    </div>
+
+    @for (use of urbanisationUses; track use.id) {
+        <div class="table-row" animate.leave="table-row-exit">
+            <div class="table-cell">
+                {{$index + 1}}
+            </div>
+            <div class="table-cell">
+                <input-field [isRequired]="true" [regexPattern]="wordRegex" (outputValue)="use.name = $event; emitValidity()"></input-field>
+            </div>
+            <div class="table-cell">
+                <number-input-field [isRequired]="true" [maxLength]="10" [endingSymbol]="'€'" (outputValue)="use.greenArea = $event; emitValidity()"></number-input-field>
+            </div>
+            <div class="table-cell">
+                <number-input-field [isRequired]="true" [maxLength]="10" [endingSymbol]="'m²'" (outputValue)="use.networkArea = $event; emitValidity()"></number-input-field>
+            </div>
+            <div class="table-cell">
+                <number-input-field [isRequired]="true" [maxLength]="10" [endingSymbol]="'€/m²'" (outputValue)="use.unitPEMGreenArea = $event; emitValidity()"></number-input-field>
+            </div>
+            <div class="table-cell">
+                <number-input-field [isRequired]="true" [maxLength]="10" [endingSymbol]="'€/m²'" (outputValue)="use.unitPEMNetworkArea = $event; emitValidity()"></number-input-field>
+            </div>
+            <div class="table-cell">
+                {{ formatBigCurrency(totalPEM(use)) }}
+            </div>
+            <div class="table-cell">
+                <button
+                    class="delete-button"
+                    type="button"
+                    aria-label="Eliminar uso"
+                    (click)="removeUrbanisationUse(use.id)">
+                </button>
+            </div>
+        </div>
+    } @empty {
+        <div class="full-row">
+            <div>
+                No hay usos de urbanización disponibles.
+            </div>
+        </div>
+    }
+
+</div>
+
+<div class="add-row">
+    <button
+        class="add-button"
+        [class.disabled]="urbanisationUses.length >= 4"
+        type="button"
+        aria-label="Añadir uso de urbanización"
+        (click)="addUrbanisationUse()">
+        <span class="add-icon" aria-hidden="true"></span>
+        <span>Añadir uso</span>
+    </button>
+    @if (urbanisationUses.length >= 4) {
+        <div class="error-label" animate.leave="error-label-exit">No se consideran más de 4 usos de urbanización.</div>
+    }
+</div>

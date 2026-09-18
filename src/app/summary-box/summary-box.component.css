@@ -1,0 +1,102 @@
+.summary-box {
+    user-select: none;
+    display: grid;
+    width: 100%;
+    align-self: center;
+    justify-self: center;
+    height: 100%;
+    grid-template-rows: 15% 1fr;
+    background-color: white;
+}
+
+.summary-cost-box {
+    display: grid;
+    width: 100%;
+    grid-template-rows: 1fr 1fr;
+    background-color: var(--primary-colour);
+    color: white;
+    padding: 1rem 1.5rem 0.5rem 1.5rem;
+}
+
+.cost-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-align: start;
+}
+
+.summary-cost {
+    font-size: 2rem;
+    font-weight: 600;
+    text-align: right;
+}
+
+.summary-display {
+    display: grid;
+    grid-template-rows: 50% 17% 1fr 12%;
+    padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+    gap: 1.5rem;
+}
+
+.progress-bars {
+    display: grid;
+    grid-template-rows: 2fr 2fr 1fr; /*1fr 1fr 1fr; */
+    gap: 0.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--secondary-colour);
+}
+
+.progress-bar {
+    display: grid;
+    grid-template-rows: 1fr;
+    align-items: end;
+}
+
+.pem-info {
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    border-bottom: 1px solid var(--secondary-colour);
+}
+
+.pem-total, .pem-percentage {
+    font-size: 0.9rem;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+}
+
+.summary-value {
+    font-weight: 600;
+    text-align: right;
+}
+
+.download-button {
+    background-color: var(--primary-colour);
+    color: white;
+    border: none;
+    height: 100%;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+    width: 50%;
+    align-self: center;
+    justify-self: center;
+    user-select: none;
+}
+
+.download-button:hover {
+    background-color: var(--ive-colour);
+}
+
+.download-button:active {
+    background-color: white;
+    border: 2px solid var(--ive-colour);
+    color: var(--ive-colour);
+}
+
+.summary-footer {
+    color: var(--primary-colour);
+    font-size: 0.8rem;
+}
