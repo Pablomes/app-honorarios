@@ -1,6 +1,7 @@
-import { Component, effect, input, InputSignal, output, OutputEmitterRef } from '@angular/core';
+import { Component, computed, effect, input, InputSignal, output, OutputEmitterRef } from '@angular/core';
 import { AddonRowComponent } from "../addon-row/addon-row.component";
 import { SimpleDropdownComponent } from "../simple-dropdown/simple-dropdown.component";
+import { CivilWorksProject, EdificationProject, UrbanisationProject } from '../../lib';
 
 type UrbanisationUse = {
   id: number,
@@ -47,10 +48,6 @@ export class DocsActivitiesTableComponent {
 
   enabledDocs: {id: string, enabled: boolean[]}[] = [];
 
-  docs: InputSignal<{id: string, name: string, info: string, toggleUseCase: boolean}[]> = input<{id: string, name: string, info: string, toggleUseCase: boolean}[]>([]);
-
-  docsMap: InputSignal<{[key:string] : number[]}> = input<{[key:string] : number[]}>({});
-
   values: InputSignal<{[key: string]: number[]}> = input<{[key: string]: number[]}>({});
 
   projectState: string = "";
@@ -59,9 +56,11 @@ export class DocsActivitiesTableComponent {
 
   projectTypeOutput: OutputEmitterRef<string> = output<string>();
 
-  projectTypes: InputSignal<string[]> = input<string[]>([]);
+  projects: InputSignal<EdificationProject[] | CivilWorksProject[] | UrbanisationProject[]> = input<EdificationProject[] | CivilWorksProject[] | UrbanisationProject[]>([]);
 
-  projectTypeMap: InputSignal<{[key: string]: string}> = input<{[key: string]: string}>({});
+  projectNames = computed(() => {
+    return this.projects().map(p => p.nombre);
+  });
 
   private previousTabIndex = this.tabIndex();
 
@@ -77,10 +76,6 @@ export class DocsActivitiesTableComponent {
       this.projectTypeOutput.emit('');
       this.docsInfoOutput.emit({projectState: '', docs: this.enabledDocs});
     });
-  }
-
-  getProjectState(selectedValue: string): string {
-    return this.projectTypeMap()[selectedValue] || '';
   }
 
   getUseLabel(useCase: EdificationUse | CivilWorksUse | UrbanisationUse | null | undefined, idx: number): string {
@@ -108,7 +103,7 @@ export class DocsActivitiesTableComponent {
   }
 
   onProjectTypeChange(selectedValue: string): void {
-    this.projectState = this.getProjectState(selectedValue);
+    this.projectState = this.projects().find(p => p.nombre === selectedValue)?.id || '';  //this.getProjectState(selectedValue);
     this.projectTypeOutput.emit(selectedValue);
     this.docsInfoOutput.emit({projectState: this.projectState, docs: this.enabledDocs});
   }
@@ -131,19 +126,9 @@ export class DocsActivitiesTableComponent {
     return total;
   }
 
-  getDocsMap() : number[] {
-    return this.docsMap()[this.projectState] || [];
-  }
-
-  validDocs() {
-    let map = this.getDocsMap();
-    let res = [];
-    for (let i = 0; i < map.length; i++) {
-      if (map[i] === 1) {
-        res.push(this.docs()[i]);
-      }
-    }
-    return res;
+  currentDocs() {
+    console.log("Current docs for projectState:", this.projectState, "are", this.projects().find(p => p.id === this.projectState)?.docs || []);
+    return this.projects().find(p => p.id === this.projectState)?.docs || [];
   }
 
   formatMoney(value: number): string {

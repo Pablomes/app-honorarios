@@ -1,6 +1,6 @@
 import { Component, inject, QueryList, signal, ViewChildren, WritableSignal } from '@angular/core';
 import { APP_CONTEXT } from './app-context.token';
-import { DocRequest, HonorariosCalculationRequest } from "../lib/core/types";
+import { CivilWorksProject, DocRequest, EdificationProject, HonorariosCalculationRequest, UrbanisationProject } from "../lib/core/types";
 import { ApiService } from '../lib';
 import { TabSelectorComponent } from './tab-selector/tab-selector.component';
 import { SummaryBoxComponent } from "./summary-box/summary-box.component";
@@ -74,145 +74,20 @@ export class AppComponent {
 
   calculatedValues: { [key: string]: number[] } = {};
 
-  // EDIFICATION DATA VALUES
+  edificationProjects: EdificationProject[] = [];
+  civilWorksProjects: CivilWorksProject[] = [];
+  urbanisationProjects: UrbanisationProject[] = [];
 
-  edificationDocs: {id: string, name: string, info: string, toggleUseCase: boolean}[] = [
-    {id: 'ESPR', name: 'Estudio previo', info: '', toggleUseCase: false},
-    {id: 'ANPR', name: 'Anteproyecto', info: '', toggleUseCase: false},
-    {id: 'ESIA', name: "Estudio de impacto ambiental", info: '', toggleUseCase: false},
-    {id: 'ESIP', name: "Estudio de integración paisajística", info: '', toggleUseCase: false},
-    {id: "ESGE", name: "Estudio geotécnico", info: "", toggleUseCase: false},
-    {id: "PRIN", name: "Proyecto de instalaciones", info: "Si se indica PEM de las instalaciones será este el valor empleado en el cálculo del proyecto, dirección y legalización de instalaciones, si no se indica se emplea 20 % del PEM del uso.", toggleUseCase: false},
-    {id: "ESSS", name: "Estudio de seguridad y salud", info: "", toggleUseCase: false},
-    {id: "PLCC", name: "Plan de control de calidad", info: "", toggleUseCase: false},
-    {id: "DEJO", name: "Dirección de ejecución de obra", info: "", toggleUseCase: false},
-    {id: "DYLI", name: "Dirección y legalización de instalaciones", info: "", toggleUseCase: false},
-    {id: "CMSS", name: "Coordinación en materia de seguridad y salud", info: "", toggleUseCase: false},
-    {id: "SCCO", name: "Seguimiento del control de calidad en obra", info: "", toggleUseCase: false},
-    {id: "PRAC", name: "Proyecto de actividad", info: "Indicar los usos que requieren de proyecto actividad", toggleUseCase: true},
-  ];
-
-  edificationDocsMap : { [key: string]: number[] } = {
-    "ESPR": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    "ANPR": [0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-    "PRBA": [1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-    "PREJ": [0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1],
-    "PBEJ": [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1],
-    "DIOB": [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0],
-    "PBED": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    "ATSU": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    "ACPR": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  };
-
-  edificationProjectTypes : string[] = [
-    "Estudio previo",
-    "Anteproyecto",
-    "Proyecto básico",
-    "Proyecto de ejecución",
-    "Proyecto básico y de ejecución",
-    "Dirección de obra",
-    "Proyecto básico y de ejecución y dirección de obra",
-    "Asistencia técnica supervisión",
-    "Actualización de proyecto"
-  ];
-
-  edificationProjectTypeMap : { [key: string]: string } = {
-    "Estudio previo": "ESPR",
-    "Anteproyecto": "ANPR",
-    "Proyecto básico": "PRBA",
-    "Proyecto de ejecución": "PREJ",
-    "Proyecto básico y de ejecución": "PBEJ",
-    "Dirección de obra": "DIOB",
-    "Proyecto básico y de ejecución y dirección de obra": "PBED",
-    "Asistencia técnica supervisión": "ATSU",
-    "Actualización de proyecto": "ACPR"
-  };
-
-  ////
-
-  // CIVIL WORKS DATA VALUES
-
-  civilWorksDocs: {id: string, name: string, info: string, toggleUseCase: boolean}[] = [
-    {id: "MEVA", name: "Memoria valorada", info: "", toggleUseCase: false},
-    {id: "ANPR", name: "Anteproyecto", info: "", toggleUseCase: false},
-    {id: "ESSO", name: "Estudio de soluciones", info: "", toggleUseCase: false},
-    {id: "ESIA", name: "Estudio de impacto ambiental", info: "", toggleUseCase: false},
-    {id: "ESIP", name: "Estudio de integración paisajística", info: "", toggleUseCase: false},
-    {id: "ESGE", name: "Estudio geotécnico", info: "", toggleUseCase: false},
-    {id: "ESAR", name: "Estudio arqueológico", info: "", toggleUseCase: false},
-    {id: "MESC", name: "Modelización estructural compleja", info: "", toggleUseCase: false},
-    {id: "MHIC", name: "Modelización hidrológica compleja", info: "", toggleUseCase: false},
-    {id: "MHUC", name: "Modelización hidráulica compleja", info: "", toggleUseCase: false},
-    {id: "TRAU", name: "Tramitación de autorizaciones", info: "", toggleUseCase: false},
-  ];
-
-  civilWorksDocsMap : { [key: string]: number[] } = {
-    "MEVP": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
-    "ANPP": [0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1],
-    "PRCO": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    "PCDO": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    "DOAT": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  };
-
-  civilWorksProjectTypes : string[] = [
-    "Memoria valorada",
-    "Anteproyecto",
-    "Proyecto constructivo",
-    "Proyecto constructivo y dirección de obra",
-    "Dirección de obra / Asistencia técnica"
-  ];
-
-  civilWorksProjectTypeMap : { [key: string]: string } = {
-    "Memoria valorada": "MEVA",
-    "Anteproyecto": "ANPR",
-    "Proyecto constructivo": "PRCO",
-    "Proyecto constructivo y dirección de obra": "PCDO",
-    "Dirección de obra / Asistencia técnica": "DOAT"
-  };
-
-  ////
-
-  // URBANISATION DATA VALUES
-
-  urbanisationDocs: {id: string, name: string, info: string, toggleUseCase: boolean}[] = [
-    {id: "ANPR", name: "Anteproyecto", info: "", toggleUseCase: false},
-    {id: "ESIA", name: "Estudio de impacto ambiental", info: "", toggleUseCase: false},
-    {id: "ESIP", name: "Estudio de integración paisajística", info: "", toggleUseCase: false},
-    {id: "ESGE", name: "Estudio geotécnico", info: "", toggleUseCase: false},
-    {id: "PRIN", name: "Proyecto de instalaciones", info: "", toggleUseCase: false},
-    {id: "ESSS", name: "Estudio de seguridad y salud", info: "", toggleUseCase: false},
-    {id: "PLCC", name: "Plan de control de calidad", info: "", toggleUseCase: false},
-    {id: "DOBR", name: "Dirección de obra", info: "", toggleUseCase: false},
-    {id: "DYLI", name: "Dirección y legalización de instalaciones", info: "", toggleUseCase: false},
-    {id: "CMSS", name: "Coordinación en materia de seguridad y salud", info: "", toggleUseCase: false},
-    {id: "SCCO", name: "Seguimiento del control de calidad en obra", info: "", toggleUseCase: false}
-  ];
-
-  urbanisationDocsMap : { [key: string]: number[] } = {
-    "ANPR": [0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0],
-    "PROY": [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-    "DOBR": [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
-    "EIAP": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    "EIPP": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-  };
-
-  urbanisationProjectTypes : string[] = [
-    "Anteproyecto",
-    "Proyecto",
-    "Dirección de obra",
-    "Estudio de impacto ambiental",
-    "Estudio de integración paisajística"
-  ];
-
-  urbanisationProjectTypeMap : { [key: string]: string } = {
-    "Anteproyecto": "ANPR",
-    "Proyecto": "PROY",
-    "Dirección de obra": "DOBR",
-    "Estudio de impacto ambiental": "EIAP",
-    "Estudio de integración paisajística": "EIPP"
-  };
-
-  ////
+  async ngOnInit() {
+    const [edif, obci, urba] = await Promise.all([
+      this.api.getProjects("edif"),
+      this.api.getProjects("obci"),
+      this.api.getProjects("urba")
+    ]);
+    this.edificationProjects = edif;
+    this.civilWorksProjects = obci;
+    this.urbanisationProjects = urba;
+  }
 
   private triggerCalculationIfValid(): void {
     if (!this.currentProjectState || this.useCases.length === 0) {
@@ -373,55 +248,16 @@ export class AppComponent {
     });
   }
 
-  getDocs() {
+  getProjects() : EdificationProject[] | CivilWorksProject[] | UrbanisationProject[] {
     switch (this.selectedTabIndex) {
       case 0:
-        return this.edificationDocs;
+        return this.edificationProjects;
       case 1:
-        return this.civilWorksDocs;
+        return this.civilWorksProjects;
       case 2:
-        return this.urbanisationDocs;
+        return this.urbanisationProjects;
       default:
         return [];
-    }
-  }
-
-  getDocsMap() {
-    switch (this.selectedTabIndex) {
-      case 0:
-        return this.edificationDocsMap;
-      case 1:
-        return this.civilWorksDocsMap;
-      case 2:
-        return this.urbanisationDocsMap;
-      default:
-        return {};
-    }
-  }
-
-  getProjectTypes() : string[] {
-    switch (this.selectedTabIndex) {
-      case 0:
-        return this.edificationProjectTypes;
-      case 1:
-        return this.civilWorksProjectTypes;
-      case 2:
-        return this.urbanisationProjectTypes;
-      default:
-        return [];
-    }
-  }
-
-  getProjectTypeMap() : { [key: string]: string } {
-    switch (this.selectedTabIndex) {
-      case 0:
-        return this.edificationProjectTypeMap;
-      case 1:
-        return this.civilWorksProjectTypeMap;
-      case 2:
-        return this.urbanisationProjectTypeMap;
-      default:
-        return {};
     }
   }
 

@@ -4,7 +4,7 @@ import { SummaryProgressBarComponent } from "../summary-progress-bar/summary-pro
 
 @Component({
   selector: 'summary-box',
-  imports: [CurrencyPipe, DecimalPipe, SummaryProgressBarComponent],
+  imports: [ DecimalPipe, SummaryProgressBarComponent],
   templateUrl: './summary-box.component.html',
   styleUrl: './summary-box.component.css',
 })

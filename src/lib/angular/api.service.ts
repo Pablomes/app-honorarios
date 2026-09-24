@@ -3,7 +3,7 @@ import { API_CONFIG, ApiConfig } from './tokens';
 import { ApiClient } from '../core/client';
 import { FetchClient } from '../core/fetch-client';
 import { APP_BASE_URL } from '../../app/app-url.token';
-import { CalculationRequest, DocRequest, HonorariosCalculationRequest } from '../core/types';
+import { CivilWorksProject, DocRequest, EdificationProject, HonorariosCalculationRequest, UrbanisationProject } from '../core/types';
 
 @Injectable({
     providedIn : "root"
@@ -22,35 +22,27 @@ export class ApiService {
         this.client = new ApiClient(http);
     }
 
-    getDatosIndustralizacion() {
-        return this.client.getDatosIndustralizacion();
-    }
-
-    getDatoIndustralizacion(id : string) {
-        return this.client.getDatoIndustralizacion(id);
-    }
-
-    getDatosIndustralizacionByCategory(category : string) {
-        return this.client.getDatosIndustralizacionByCategory(category);
-    }
-
-    getCoefsPorPorcentajes() {
-        return this.client.getCoefsPorPorcentajes();
-    }
-
-    getCoefPorPorcentaje(id : string) {
-        return this.client.getCoefPorPorcentaje(id);
-    }
-
-    calculate(request : CalculationRequest) {
-        return this.client.calculate(request);
-    }
-
     generateDoc(request : DocRequest) {
         return this.client.generateDoc(request);
     }
 
     calculateHonorarios(request : HonorariosCalculationRequest) {
         return this.client.calculateHonorarios(request);
+    }
+
+    getProjects(type:"edif") : Promise<EdificationProject[]>;
+    getProjects(type:"obci") : Promise<CivilWorksProject[]>;
+    getProjects(type:"urba") : Promise<UrbanisationProject[]>;
+    getProjects(type: "edif" | "obci" | "urba"): Promise<EdificationProject[]> | Promise<CivilWorksProject[]> | Promise<UrbanisationProject[]> {
+        let result = this.client.getProjects(type);
+
+        switch(type) {
+            case "edif":
+                return result as Promise<EdificationProject[]>;
+            case "obci":
+                return result as Promise<CivilWorksProject[]>;
+            case "urba":
+                return result as Promise<UrbanisationProject[]>;
+        }
     }
 }

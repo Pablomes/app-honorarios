@@ -14,7 +14,7 @@
     </div>
 
     <div class="table-row">
-        <simple-dropdown [boldLabel]="true" [placeholder]="'Seleccione tipo de proyecto'" [values]="projectTypes()" [resetKey]="tabIndex()" (selectedValueOut)="onProjectTypeChange($event)"></simple-dropdown>
+        <simple-dropdown [boldLabel]="true" [placeholder]="'Seleccione tipo de proyecto'" [values]="projectNames()" [resetKey]="tabIndex()" (selectedValueOut)="onProjectTypeChange($event)"></simple-dropdown>
 
         @for (use of getValues(projectState); track $index) {
         <div class="table-cell">
@@ -27,8 +27,8 @@
     </div>
     </div>
 
-    @for (doc of validDocs(); track doc.id) {
-        <addon-row [addonName]="doc.name" [addonId]="doc.id" [useCases]="getValues(doc.id)" [toggleUseCaseEnabled]="doc.toggleUseCase" [infoComment]="doc.info"
+    @for (doc of currentDocs(); track doc.id) {
+        <addon-row [addonName]="doc.nombre" [addonId]="doc.id" [useCases]="getValues(doc.id)" [toggleUseCaseEnabled]="doc.toggleUseCase" [infoComment]="doc.info ?? ''"
             (addonEnabledOuput)="handleAddonChange($event)"></addon-row>
     }
 

@@ -15,7 +15,7 @@
 <div class="testDivide">
   <main class="left-panel">
     <div class="tabs">
-      <tab-selector (selectedTabIndex)="selectedTabIndex = $event; useCases = []; validInputs = []; projectType = ''; calculatedValues = {}; totalPEM = 0; projectCost = 0; additionalDocsCost = 0;"></tab-selector>
+      <tab-selector (selectedTabIndex)="selectedTabIndex = $event; useCases = []; validInputs = []; projectType = ''; calculatedValues = {}; estimatedCost = 0; totalPEM = 0; projectCost = 0; additionalDocsCost = 0;"></tab-selector>
     </div>
 
     <div class="form-content">
@@ -49,11 +49,8 @@
 
       <section-honorarios [sectionTitle]="'2. CONTENIDO DEL SERVICIO'">
         <docs-activities-table [tabIndex]="selectedTabIndex" [useCases]="useCases"
-        [docs]="getDocs()"
-        [docsMap]="getDocsMap()" 
+        [projects]="getProjects()"
         [values]="calculatedValues"
-        [projectTypes]="getProjectTypes()"
-        [projectTypeMap]="getProjectTypeMap()"
         (docsInfoOutput)="onDocsInfoOutput($event)"
         (projectTypeOutput)="projectType = $event">
         </docs-activities-table>

@@ -1,5 +1,4 @@
 import { Component, inject, input, InputSignal, output, OutputEmitterRef } from '@angular/core';
-import { SUBSECTION_CONTEXT, SubsectionContext } from '../subsection/subsection-context.token';
 
 @Component({
   selector: 'checkbox-option',

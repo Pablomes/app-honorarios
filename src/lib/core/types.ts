@@ -67,36 +67,30 @@ export type HonorariosCalculationResponse = {
     responses: AddonCalculationResponse[];
 }
 
+export type GenericDoc = {
+    id: string;
+    nombre: string;
+    info: string | null;
+    toggleUseCase: boolean;
+    orderIdx: number;
+}
+
+export type EdificationDoc = GenericDoc;
+export type CivilWorksDoc = GenericDoc;
+export type UrbanisationDoc = GenericDoc;
+
+export type GenericProject<TDoc extends GenericDoc> = {
+    id: string;
+    nombre: string;
+    docs: TDoc[];
+    orderIdx: number;
+}
+
+export type EdificationProject = GenericProject<EdificationDoc>;
+export type CivilWorksProject = GenericProject<CivilWorksDoc>;
+export type UrbanisationProject = GenericProject<UrbanisationDoc>;
+
 ///////////////////////////////////////////////////////////
-
-export interface DatoIndustralizacion {
-    id : string;
-    nombre : string;
-    porcPresupuesto : number;
-    coefIndustralizacion : number;
-    porcTiempo : number;
-    categoria : string;
-}
-
-export interface DatoCoefPorcentajes {
-    porc : string;
-    coef : number;
-}
-
-export interface CalculatedData {
-    compPrefabricados : number;
-    reduccionTiempo : number;
-}
-
-export interface ControlValue {
-    ID : string;
-    value : string;
-}
-
-export interface CalculationRequest {
-    ID : string;
-    responses : ControlValue[];
-}
 
 export interface SubsectionDocRequest {
     ID : string;
