@@ -23,7 +23,7 @@
             </div>
         </div>
 
-        <div class="download-button">
+        <div class="download-button" (click)="!disableDownload() && downloadEvent.emit()" [class.disabled]="disableDownload()" [attr.aria-label]="disableDownload() ? 'Funcionalidad en construcción. No disponible en esta versión.' : null">
             DESCARGA PDF
         </div>
 

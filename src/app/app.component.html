@@ -62,7 +62,8 @@
   <aside class="right-panel">
     <div class="summary-box-container">
       <summary-box [estimatedCost]="estimatedCost" [projectType]="projectType === '' ? 'Actuación' : projectType"
-      [totalPEM]="totalPEM" [projectCost]="projectCost" [additionalDocsCost]="additionalDocsCost"></summary-box>
+      [totalPEM]="totalPEM" [projectCost]="projectCost" [additionalDocsCost]="additionalDocsCost" [disableDownload]="limitDocAccess"
+      (downloadEvent)="generateDocument()"></summary-box>
     </div>
   </aside>
 </div>

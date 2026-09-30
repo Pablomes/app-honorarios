@@ -90,6 +90,12 @@ export type EdificationProject = GenericProject<EdificationDoc>;
 export type CivilWorksProject = GenericProject<CivilWorksDoc>;
 export type UrbanisationProject = GenericProject<UrbanisationDoc>;
 
+export type DocRequest = {
+    projectType: "EDIF" | "OBCI" | "URBA";
+    actuationId: string;
+    calculationRequest: HonorariosCalculationRequest;
+}
+
 ///////////////////////////////////////////////////////////
 
 export interface SubsectionDocRequest {
@@ -104,7 +110,7 @@ export interface SectionDocRequest {
     subsections : SubsectionDocRequest[];
 }
 
-export interface DocRequest {
+export interface DocRequest_OLD {
     projectName : string;
     location : string;
     developer : string;

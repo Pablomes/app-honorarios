@@ -1,4 +1,4 @@
-import { Component, input, InputSignal } from '@angular/core';
+import { Component, input, InputSignal, output, OutputEmitterRef } from '@angular/core';
 import { CurrencyPipe, DecimalPipe } from '@angular/common';
 import { SummaryProgressBarComponent } from "../summary-progress-bar/summary-progress-bar.component";
 
@@ -13,10 +13,13 @@ export class SummaryBoxComponent {
   estimatedCost : InputSignal<number> = input<number>(0);
   projectType : InputSignal<string> = input<string>("Actuación");
   totalPEM : InputSignal<number> = input<number>(0);
+  disableDownload: InputSignal<boolean> = input<boolean>(false);
 
   projectCost : InputSignal<number> = input<number>(0);
   additionalDocsCost : InputSignal<number> = input<number>(0);
   BIMCost : InputSignal<number> = input<number>(0);
+
+  downloadEvent: OutputEmitterRef<void> = output<void>();
 
   get relativeCost() : number {
     return this.totalPEM() == 0 ? 0 : this.estimatedCost() / this.totalPEM();

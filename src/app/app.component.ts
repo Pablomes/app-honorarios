@@ -1,4 +1,4 @@
-import { Component, inject, QueryList, signal, ViewChildren, WritableSignal } from '@angular/core';
+import { Component, inject, InjectionToken, QueryList, signal, ViewChildren, WritableSignal } from '@angular/core';
 import { APP_CONTEXT } from './app-context.token';
 import { CivilWorksProject, DocRequest, EdificationProject, HonorariosCalculationRequest, UrbanisationProject } from "../lib/core/types";
 import { ApiService } from '../lib';
@@ -9,6 +9,8 @@ import { EdificationUseTableComponent } from "./edification-use-table/edificatio
 import { CivilWorksUseTableComponent } from "./civil-works-use-table/civil-works-use-table.component";
 import { UrbanisationUseTableComponent } from "./urbanisation-use-table/urbanisation-use-table.component";
 import { DocsActivitiesTableComponent } from "./docs-activities-table/docs-activities-table.component";
+
+export const LIMIT_DOC_ACCESS = new InjectionToken<boolean>('LIMIT_DOC_ACCESS');
 
 type UrbanisationUse = {
   id: number,
@@ -52,6 +54,8 @@ type EdificationUse = {
 })
 export class AppComponent {
   private api = inject(ApiService);
+
+  limitDocAccess: boolean = inject(LIMIT_DOC_ACCESS, { optional: true }) ?? false;
 
   selectedTabIndex : number = 0;
   projectName : string = "";
@@ -259,6 +263,67 @@ export class AppComponent {
       default:
         return [];
     }
+  }
+
+  generateDocument() : void {
+    const requestUses = this.useCases.map((use, index) => ({
+      ...use,
+      valid: this.validInputs[index] === true
+    }));
+
+    const selectedAddons = this.currentEnabledDocs.map(doc => ({
+      id: doc.id,
+      enabledUses: doc.enabled
+    }));
+
+    let request: HonorariosCalculationRequest;
+
+    if (this.selectedTabIndex === 0) {
+      request = {
+        type: "EDIF",
+        uses: requestUses as unknown as EdificationUse[],
+        projectState: this.currentProjectState as "ESPR" | "ANPR" | "PRBA" | "PREJ" | "PBEJ" | "OIOB" | "PBED" | "ATSU" | "ACPR",
+        selectedAddons
+      };
+    } else if (this.selectedTabIndex === 1) {
+      request = {
+        type: "OBCI",
+        uses: requestUses as unknown as CivilWorksUse[],
+        projectState: this.currentProjectState as "MEVA" | "ANPR" | "PRCO" | "PCOD" | "DOAT",
+        selectedAddons
+      };
+    } else {
+      request = {
+        type: "URBA",
+        uses: requestUses as unknown as UrbanisationUse[],
+        projectState: this.currentProjectState as "ANPR" | "PROY" | "DIOB" | "ESIA" | "ESIP",
+        selectedAddons
+      };
+    }
+
+    console.log("DOC: 3");
+
+
+    const docRequest: DocRequest = {
+      projectType: this.selectedTabIndex === 0 ? "EDIF" : this.selectedTabIndex === 1 ? "OBCI" : "URBA",
+      actuationId: this.projectName,
+      calculationRequest: request
+    };
+
+    console.log("Generating document with request:", docRequest);
+
+    // ABRE EL DOCUMENTO EN EL NAVEGADOR
+    this.api.generateDoc(docRequest).then((blob) => {
+      const pdfData = blob.type === "application/pdf" ? blob : new Blob([blob], { type: "application/pdf" });
+
+      const url = URL.createObjectURL(pdfData);
+
+      window.open(url, '_blank');
+
+      setTimeout(() => {
+        URL.revokeObjectURL(url);
+      }, 60000);
+    });
   }
 
   /*

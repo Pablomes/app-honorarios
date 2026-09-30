@@ -96,6 +96,21 @@
     color: var(--ive-colour);
 }
 
+.download-button.disabled {
+    background-color: var(--secondary-colour);
+    cursor: not-allowed;
+}
+
+.download-button.disabled:hover {
+    background-color: var(--secondary-colour);
+}
+
+.download-button.disabled:active {
+    background-color: var(--secondary-colour);
+    border: none;
+    color: white;
+}
+
 .summary-footer {
     color: var(--primary-colour);
     font-size: 0.8rem;

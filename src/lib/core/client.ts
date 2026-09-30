@@ -6,7 +6,7 @@ export class ApiClient {
     constructor(private http : HttpClient) {}
 
     generateDoc(request : DocRequest) : Promise<Blob> {
-        return this.http.post<Blob, DocRequest>("/industrializacionDoc", request);
+        return this.http.post<Blob, DocRequest>("/honorariosDoc", request);
     }
 
     calculateHonorarios(request : HonorariosCalculationRequest) : Promise<HonorariosCalculationResponse> {

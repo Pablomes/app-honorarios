@@ -6,6 +6,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { API_CONFIG } from '../lib/angular/tokens';
 import { APP_BASE_URL } from './app-url.token';
 import { environment } from '../environments/environment';
+import { LIMIT_DOC_ACCESS } from './app.component';
 
 registerLocaleData(localeEs);
 
@@ -14,6 +15,7 @@ export const appConfig: ApplicationConfig = {
     provideAnimations(),
     { provide: LOCALE_ID, useValue: 'es-ES' },
     { provide: APP_BASE_URL, useValue: environment.apiBaseUrl },
-    { provide: API_CONFIG, useValue: { baseURL: environment.apiBaseUrl } }
+    { provide: API_CONFIG, useValue: { baseURL: environment.apiBaseUrl } },
+    { provide: LIMIT_DOC_ACCESS, useValue: environment.limitDocAccess}
   ]
 };

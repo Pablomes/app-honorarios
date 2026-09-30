@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiBaseUrl: 'https://localhost:7096'
+  apiBaseUrl: 'https://localhost:7096',
+  limitDocAccess: true
 };
