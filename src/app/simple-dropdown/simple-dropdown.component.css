@@ -49,7 +49,7 @@
   color: inherit;
   display: flex;
   align-items: flex-end;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
   min-width: 0;
   overflow: hidden;
@@ -201,10 +201,6 @@
 
 .floating-select.has-value {
     border-bottom-color: transparent;
-}
-
-::ng-deep .floating-select.has-value .p-select-dropdown-icon {
-    background-color: transparent;
 }
 
 .floating-select.has-value:hover,
