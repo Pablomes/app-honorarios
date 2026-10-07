@@ -208,8 +208,7 @@ background-color: var(--primary-colour);
 }
 
 .error-label {
-    color: #f09c00;
-    font-weight: 600;
+    color: var(--text-colour);
     font-size: 0.9rem;
     margin-top: 0.5rem;
     animation: error-label-enter 180ms ease-out both;

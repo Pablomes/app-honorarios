@@ -9,7 +9,7 @@
   width: 100%;
   min-width: 0;
   max-width: 100%;
-  border-bottom: 2px solid var(--primary-colour);
+  border-bottom: 1px solid var(--primary-colour);
   transition: border-radius 120ms;
   /*border: 2px solid var(--primary-colour);*/
   /*border-radius: 12px;*/
@@ -95,8 +95,8 @@
 }
 
 ::ng-deep .p-select-overlay.percentage-picker-panel {
-  border-top: 2px solid var(--primary-colour) !important;
-  border-bottom: 2px solid var(--primary-colour) !important;
+  border-top: 1px solid var(--primary-colour) !important;
+  border-bottom: 1px solid var(--primary-colour) !important;
   box-shadow: none !important;
   overflow: hidden;
   z-index: 1200 !important;
