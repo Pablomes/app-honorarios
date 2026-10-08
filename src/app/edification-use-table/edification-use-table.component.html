@@ -1,16 +1,16 @@
 <div class="table-rows">
     <div class="table-header">
         <div class="left-align">
-            Usos
+            <span class="unit-with-info">Usos <info-popup [title]="'Usos'" > <div comment>Indicar los distintos usos de edificación incluidos en la obra.<br><br>Las obras de urbanización interior de la parcela deberán introducirse como zonas de actuación en la pestaña URBANIZACIÓN, según su tipología.</div> </info-popup> </span>
         </div>
         <div>
             Nº <br>Plantas repetidas <span style="color: red;">*</span>
         </div>
         <div>
-            Superficie <span style="color: red;">*</span><br> m² 
+            Superficie <span style="color: red;">*</span><br> <span class="unit-with-info">m² <info-popup [title]="'Superficie'" > <div comment>Indicar la superficie construida total correspondiente a cada uso, incluyendo todas las plantas, con independencia del número de plantas repetidas.</div> </info-popup> </span>
         </div>
         <div>
-            PEM unitario  <span style="color: red;">*</span> <br> €/m²
+            PEM unitario  <span style="color: red;">*</span> <br> <span class = "unit-with-info" > €/m² <info-popup [title]="'PEM unitario'" > <div comment>Se recomienda utilizar como referencia el Módulo Básico de Edificación (MBE) del Instituto Valenciano de la Edificación (IVE), aplicando los coeficientes que correspondan a las características de la actuación.<br> <br>Más información en <a class="ive-link" href="https://www.five.es/modulo-de-edificacion/" target="_blank" rel="noopener noreferrer">MBE-IVE</a></div> </info-popup> </span>
         </div>
         <div>
             PEM instalaciones <span> <info-popup [title]="'PEM instalaciones'" > <div comment>Indicar el PEM de las instalaciones cuando sea independiente del PEM de la obra. Será este el valor empleado en el cálculo del proyecto de instalaciones.</div> </info-popup> </span>

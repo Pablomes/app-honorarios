@@ -1,4 +1,4 @@
-<div class="tab-row">
+<div class="tab-row" [class.stuck]="isStuck">
     <div class="tab" [class.active]="tabs[0]" (click)="tabClicked(0)">
         EDIFICACIÓN
     </div>

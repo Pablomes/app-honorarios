@@ -14,6 +14,7 @@ export class SimpleDropdownComponent {
   public placeholder: InputSignal<string> = input<string>('Select an option');
   public disabled: InputSignal<boolean> = input<boolean>(false);
   public resetKey: InputSignal<number | string> = input<number | string>(0);
+  public alignLeft: InputSignal<boolean> = input<boolean>(false);
 
   public selectedOption: string | undefined;
   public isPanelOpen: boolean = false;

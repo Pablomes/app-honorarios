@@ -23,12 +23,26 @@
             </div>
         </div>
 
-        <div class="download-button" (click)="!disableDownload() && downloadEvent.emit()" [class.disabled]="disableDownload()" [attr.aria-label]="disableDownload() ? 'Funcionalidad en construcción. No disponible en esta versión.' : null">
-            DESCARGA PDF
+        <div class="download-row">
+            <div class="download-button" (click)="!disableDownload() && !documentLoading() && downloadEvent.emit()" [class.disabled]="disableDownload() || documentLoading()" [attr.aria-label]="disableDownload() ? 'Funcionalidad en construcción. No disponible en esta versión.' : documentLoading() ? 'Generando documento.' : null">
+                DESCARGA PDF
+            </div>
+            @if (documentLoading()) {
+                <div class="download-status" role="status" aria-label="Generando documento" aria-live="polite">
+                    <span class="download-spinner" aria-hidden="true"></span>
+                </div>
+            }
         </div>
 
-        <div class="summary-footer">
-            Estimación orientativa, quedando siempre a criterio del licitador la adaptación de los cálculos a las características específicas de cada actuación.
+        <div class="document-status" aria-live="polite">
+            <div class="document-error" [class.is-visible]="!!documentError()">{{ documentError() }}</div>
+            <div class="summary-footer" [class.is-visible]="!documentError()">
+                Estimación orientativa, quedando siempre a criterio del licitador la adaptación de los cálculos a las características específicas de cada actuación.
+            </div>
         </div>
+         
+    
+
+        
     </div>
 </div>

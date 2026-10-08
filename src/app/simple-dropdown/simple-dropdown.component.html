@@ -3,6 +3,7 @@
   [class.has-value]="!!selectedOption"
   [class.is-disabled]="disabled()"
   [class.bold]="boldLabel()"
+  
   (mousedown)="onContainerPress()"
 >
   <p-select
@@ -11,8 +12,9 @@
     [disabled]="disabled()"
     [placeholder]="''"
     [fluid]="true"
+    scrollHeight="none"
     [appendTo]="'body'"
-    [panelStyleClass]="'percentage-picker-panel'"
+    [panelStyleClass]="alignLeft() ? 'percentage-picker-panel align-left-panel' : 'percentage-picker-panel'"
     (ngModelChange)="selectOption($event)"
     (keydown)="onSelectKeydown($event)"
     (onBlur)="onSelectBlur()"

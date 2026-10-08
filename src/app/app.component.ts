@@ -44,6 +44,19 @@ type EdificationUse = {
     valid: boolean;
 }
 
+type TabState = {
+  useCases: EdificationUse[] | CivilWorksUse[] | UrbanisationUse[];
+  validInputs: boolean[];
+  projectType: string;
+  projectState: string;
+  enabledDocs: {id: string, enabled: boolean[]}[];
+  calculatedValues: { [key: string]: number[] };
+  estimatedCost: number;
+  projectCost: number;
+  additionalDocsCost: number;
+  totalPEM: number;
+}
+
 @Component({
     selector: 'app-root',
   standalone: true,
@@ -75,12 +88,27 @@ export class AppComponent {
   //BimCost: number = 0;
 
   totalPEM: number = 0;
+  documentError: string = '';
+  isGeneratingDocument: boolean = false;
 
   calculatedValues: { [key: string]: number[] } = {};
 
   edificationProjects: EdificationProject[] = [];
   civilWorksProjects: CivilWorksProject[] = [];
   urbanisationProjects: UrbanisationProject[] = [];
+
+  tabStates: TabState[] = [0, 1, 2].map(() => ({
+    useCases: [],
+    validInputs: [],
+    projectType: '',
+    projectState: '',
+    enabledDocs: [],
+    calculatedValues: {},
+    estimatedCost: 0,
+    projectCost: 0,
+    additionalDocsCost: 0,
+    totalPEM: 0
+  }));
 
   async ngOnInit() {
     const [edif, obci, urba] = await Promise.all([
@@ -108,7 +136,48 @@ export class AppComponent {
     });
   }
 
-  onUseCasesChanged(items: EdificationUse[] | CivilWorksUse[] | UrbanisationUse[]): void {
+  onTabChanged(index: number): void {
+    this.saveTabState(this.selectedTabIndex);
+    this.selectedTabIndex = index;
+    this.restoreTabState(index);
+  }
+
+  private saveTabState(index: number): void {
+    this.tabStates[index] = {
+      useCases: this.useCases,
+      validInputs: this.validInputs,
+      projectType: this.projectType,
+      projectState: this.currentProjectState,
+      enabledDocs: this.currentEnabledDocs,
+      calculatedValues: this.calculatedValues,
+      estimatedCost: this.estimatedCost,
+      projectCost: this.projectCost,
+      additionalDocsCost: this.additionalDocsCost,
+      totalPEM: this.totalPEM
+    };
+  }
+
+  private restoreTabState(index: number): void {
+    const state = this.tabStates[index];
+    this.useCases = state.useCases;
+    this.validInputs = state.validInputs;
+    this.projectType = state.projectType;
+    this.currentProjectState = state.projectState;
+    this.currentEnabledDocs = state.enabledDocs;
+    this.calculatedValues = state.calculatedValues;
+    this.estimatedCost = state.estimatedCost;
+    this.projectCost = state.projectCost;
+    this.additionalDocsCost = state.additionalDocsCost;
+    this.totalPEM = state.totalPEM;
+  }
+
+  onUseCasesChanged(index: number, items: EdificationUse[] | CivilWorksUse[] | UrbanisationUse[]): void {
+    this.tabStates[index].useCases = items;
+    this.tabStates[index].validInputs = items.map((use) => use.valid);
+    if (index !== this.selectedTabIndex) {
+      return;
+    }
+
     this.useCases = items;
     this.validInputs = items.map((use) => use.valid);
 
@@ -118,20 +187,32 @@ export class AppComponent {
       this.projectCost = 0;
       this.estimatedCost = 0;
       this.calculatedValues = {};
+      this.saveTabState(index);
       return;
     }
 
     this.triggerCalculationIfValid();
   }
 
-  onValidInputChanged(valid: boolean[]): void {
+  onValidInputChanged(index: number, valid: boolean[]): void {
+    this.tabStates[index].validInputs = valid;
+    if (index !== this.selectedTabIndex) {
+      return;
+    }
+
     this.validInputs = valid;
     if (this.validInputs.some(Boolean)) {
       this.triggerCalculationIfValid();
     }
   }
 
-  onDocsInfoOutput(docsInfo: {projectState: string, docs: {id: string, enabled: boolean[]}[]}) : void {
+  onDocsInfoOutput(index: number, docsInfo: {projectState: string, docs: {id: string, enabled: boolean[]}[]}) : void {
+    this.tabStates[index].projectState = docsInfo.projectState;
+    this.tabStates[index].enabledDocs = docsInfo.docs;
+    if (index !== this.selectedTabIndex) {
+      return;
+    }
+
     this.currentProjectState = docsInfo.projectState;
     this.currentEnabledDocs = docsInfo.docs;
     this.triggerCalculationIfValid();
@@ -205,7 +286,11 @@ export class AppComponent {
 
     console.log("Sending calculation request:", request);
 
+    const calculationTabIndex = this.selectedTabIndex;
     this.api.calculateHonorarios(request).then((response) => {
+      if (calculationTabIndex !== this.selectedTabIndex) {
+        return;
+      }
       console.log("Calculation response:", response);
 
       this.projectCost = 0;
@@ -246,6 +331,7 @@ export class AppComponent {
       }, {});
 
       this.calculatedValues[request.projectState] = response.projectCosts ?? [];
+      this.saveTabState(calculationTabIndex);
 
     }).catch((error) => {
       console.error("Error calculating honorarios:", error);
@@ -266,7 +352,16 @@ export class AppComponent {
   }
 
   generateDocument() : void {
-    const requestUses = this.useCases.map((use, index) => ({
+
+    if (this.isGeneratingDocument) {
+      return;
+    }
+
+    this.isGeneratingDocument = true;
+
+    this.documentError = '';
+
+        const requestUses = this.useCases.map((use, index) => ({
       ...use,
       valid: this.validInputs[index] === true
     }));
@@ -323,43 +418,11 @@ export class AppComponent {
       setTimeout(() => {
         URL.revokeObjectURL(url);
       }, 60000);
+    }).catch((error) => {
+      console.error("Error generating document:", error);
+      this.documentError = 'No se ha podido generar el documento. Revisa los campos e inténtalo de nuevo.';
+    }).finally(() => {
+      this.isGeneratingDocument = false;
     });
   }
-
-  /*
-  generateDocument(projectName: string, location: string, developer: string, projector: string) : void {
-    const docRequest : DocRequest = {
-      projectName: projectName,
-      location: location,
-      developer: developer,
-      projector: projector,
-
-      totalIndustrializacion: this.nivelIndustrializacion,
-      compPrefabricados: this.compPrefabricados,
-      reduccionTiempo: this.reduccTiempo,
-      sections: Object.entries(this.sectionValues()).map(([ID, values]) => ({
-        ID,
-        compPrefabricados: values[0] || 0,
-        reduccionTiempo: values[1] || 0,
-        subsections: this.sectionLabels()[ID] ? Object.entries(this.sectionLabels()[ID]).map(([subID, label]) => ({
-          ID: subID,
-          label
-        })) : []
-      }))
-    };
-
-    // ABRE EL DOCUMENTO EN EL NAVEGADOR
-    this.api.generateDoc(docRequest).then((blob) => {
-      const pdfData = blob.type === "application/pdf" ? blob : new Blob([blob], { type: "application/pdf" });
-
-      const url = URL.createObjectURL(pdfData);
-
-      window.open(url, '_blank');
-
-      setTimeout(() => {
-        URL.revokeObjectURL(url);
-      }, 60000);
-    });
-
-  }*/
 }

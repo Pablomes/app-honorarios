@@ -7,13 +7,14 @@
             Superficie <br>Zona verde <span style="color: red;">*</span>
         </div>
         <div>
+            PEM unitario<br>Zona verde <span style="color: red;">*</span> <br> €/m²
+        </div>
+        <div>
             Superficie <br>Red viaria <span style="color: red;">*</span> 
         </div>
+        
         <div>
-            PEM unitario<br>Zona verde<span style="color: red;">*</span> <br> €/m²
-        </div>
-        <div>
-            PEM unitario<br>Red viaria<span style="color: red;">*</span> <br> €/m²
+            PEM unitario<br>Red viaria <span style="color: red;">*</span> <br> €/m²
         </div>
         <div>
             PEM Zona <br> €
@@ -29,14 +30,15 @@
                 <input-field [isRequired]="true" [regexPattern]="wordRegex" (outputValue)="use.name = $event; emitValidity()"></input-field>
             </div>
             <div class="table-cell">
-                <number-input-field [isRequired]="true" [maxLength]="10" [endingSymbol]="'€'" (outputValue)="use.greenArea = $event; emitValidity()"></number-input-field>
-            </div>
-            <div class="table-cell">
-                <number-input-field [isRequired]="true" [maxLength]="10" [endingSymbol]="'m²'" (outputValue)="use.networkArea = $event; emitValidity()"></number-input-field>
+                <number-input-field [isRequired]="true" [maxLength]="10" [endingSymbol]="'m²'" (outputValue)="use.greenArea = $event; emitValidity()"></number-input-field>
             </div>
             <div class="table-cell">
                 <number-input-field [isRequired]="true" [maxLength]="10" [endingSymbol]="'€/m²'" (outputValue)="use.unitPEMGreenArea = $event; emitValidity()"></number-input-field>
             </div>
+            <div class="table-cell">
+                <number-input-field [isRequired]="true" [maxLength]="10" [endingSymbol]="'m²'" (outputValue)="use.networkArea = $event; emitValidity()"></number-input-field>
+            </div>
+            
             <div class="table-cell">
                 <number-input-field [isRequired]="true" [maxLength]="10" [endingSymbol]="'€/m²'" (outputValue)="use.unitPEMNetworkArea = $event; emitValidity()"></number-input-field>
             </div>

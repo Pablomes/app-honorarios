@@ -14,6 +14,8 @@ export class SummaryBoxComponent {
   projectType : InputSignal<string> = input<string>("Actuación");
   totalPEM : InputSignal<number> = input<number>(0);
   disableDownload: InputSignal<boolean> = input<boolean>(false);
+  documentError: InputSignal<string> = input<string>('');
+  documentLoading: InputSignal<boolean> = input<boolean>(false);
 
   projectCost : InputSignal<number> = input<number>(0);
   additionalDocsCost : InputSignal<number> = input<number>(0);

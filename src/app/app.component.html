@@ -15,7 +15,7 @@
 <div class="testDivide">
   <main class="left-panel">
     <div class="tabs">
-      <tab-selector (selectedTabIndex)="selectedTabIndex = $event; useCases = []; validInputs = []; projectType = ''; calculatedValues = {}; estimatedCost = 0; totalPEM = 0; projectCost = 0; additionalDocsCost = 0;"></tab-selector>
+      <tab-selector (selectedTabIndex)="onTabChanged($event)"></tab-selector>
     </div>
 
     <div class="form-content">
@@ -26,34 +26,51 @@
       <section-honorarios [sectionTitle]="'1. DATOS DE LA ACTUACIÓN'">
         <textarea id="projectName" #ta (input)="projectName = ta.value" class="text-area" section-header-extra placeholder="Promotor e identificación de la actuación" rows="2"></textarea>
         
-        @if (selectedTabIndex === 0) {
+        <div [hidden]="selectedTabIndex !== 0">
           <edification-use-table
-            (edificationUsesOut)="onUseCasesChanged($event)"
-            (validOutput)="onValidInputChanged($event)">
+            (edificationUsesOut)="onUseCasesChanged(0, $event)"
+            (validOutput)="onValidInputChanged(0, $event)">
           </edification-use-table>
-        } @else if (selectedTabIndex === 1) {
+        </div>
+        <div [hidden]="selectedTabIndex !== 1">
           <civil-works-use-table
-            (civilWorksUsesOut)="onUseCasesChanged($event)"
-            (validOutput)="onValidInputChanged($event)">
+            (civilWorksUsesOut)="onUseCasesChanged(1, $event)"
+            (validOutput)="onValidInputChanged(1, $event)">
           </civil-works-use-table>
-        } @else if (selectedTabIndex === 2) {
+        </div>
+        <div [hidden]="selectedTabIndex !== 2">
           <urbanisation-use-table
-            (urbanisationUsesOut)="onUseCasesChanged($event)"
-            (validOutput)="onValidInputChanged($event)">
+            (urbanisationUsesOut)="onUseCasesChanged(2, $event)"
+            (validOutput)="onValidInputChanged(2, $event)">
           </urbanisation-use-table>
-        }
+        </div>
         
       </section-honorarios>
 
       <div style="height: 1.5rem;"> </div>
 
       <section-honorarios [sectionTitle]="'2. CONTENIDO DEL SERVICIO'">
-        <docs-activities-table [tabIndex]="selectedTabIndex" [useCases]="useCases"
-        [projects]="getProjects()"
-        [values]="calculatedValues"
-        (docsInfoOutput)="onDocsInfoOutput($event)"
-        (projectTypeOutput)="projectType = $event">
-        </docs-activities-table>
+        <div [hidden]="selectedTabIndex !== 0">
+          <docs-activities-table [tabIndex]="0" [useCases]="tabStates[0].useCases"
+          [projects]="edificationProjects" [values]="tabStates[0].calculatedValues"
+          (docsInfoOutput)="onDocsInfoOutput(0, $event)"
+          (projectTypeOutput)="tabStates[0].projectType = $event; projectType = $event">
+          </docs-activities-table>
+        </div>
+        <div [hidden]="selectedTabIndex !== 1">
+          <docs-activities-table [tabIndex]="1" [useCases]="tabStates[1].useCases"
+          [projects]="civilWorksProjects" [values]="tabStates[1].calculatedValues"
+          (docsInfoOutput)="onDocsInfoOutput(1, $event)"
+          (projectTypeOutput)="tabStates[1].projectType = $event; projectType = $event">
+          </docs-activities-table>
+        </div>
+        <div [hidden]="selectedTabIndex !== 2">
+          <docs-activities-table [tabIndex]="2" [useCases]="tabStates[2].useCases"
+          [projects]="urbanisationProjects" [values]="tabStates[2].calculatedValues"
+          (docsInfoOutput)="onDocsInfoOutput(2, $event)"
+          (projectTypeOutput)="tabStates[2].projectType = $event; projectType = $event">
+          </docs-activities-table>
+        </div>
       </section-honorarios>
     </div>
 
@@ -63,6 +80,7 @@
     <div class="summary-box-container">
       <summary-box [estimatedCost]="estimatedCost" [projectType]="projectType === '' ? 'Actuación' : projectType"
       [totalPEM]="totalPEM" [projectCost]="projectCost" [additionalDocsCost]="additionalDocsCost" [disableDownload]="limitDocAccess"
+      [documentError]="documentError" [documentLoading]="isGeneratingDocument"
       (downloadEvent)="generateDocument()"></summary-box>
     </div>
   </aside>

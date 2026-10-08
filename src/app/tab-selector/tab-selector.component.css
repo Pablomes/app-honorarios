@@ -5,6 +5,10 @@
     user-select: none;
 }
 
+.tab-row.stuck {
+    box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+}
+
 .tab {
     cursor: pointer;
     font-size: 1.125rem;

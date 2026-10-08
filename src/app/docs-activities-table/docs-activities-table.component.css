@@ -15,7 +15,7 @@
     background-color: #e7e6e6;
     border: 1px solid var(--secondary-colour);
     text-align: center;
-    font-weight: 600;
+    /*font-weight: 600;*/
 }
 
 .use-title {
@@ -42,6 +42,10 @@
     background-color: white;
     border: 1px solid var(--secondary-colour);
     animation: table-row-enter 180ms ease-out both;
+}
+
+.noleft-padding {
+    padding-left: 0 !important;
 }
 
 @keyframes table-row-enter {

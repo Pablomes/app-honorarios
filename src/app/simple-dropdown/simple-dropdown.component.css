@@ -14,6 +14,7 @@
   /*border: 2px solid var(--primary-colour);*/
   /*border-radius: 12px;*/
   padding: 0;
+  margin-left: 0.5rem;
   box-sizing: border-box;
 }
 
@@ -103,7 +104,10 @@
   transform-origin: top center;
   transition: none !important;
   animation: dropdown-curtain 120ms ease-out;
-  margin: 1px !important;
+}
+
+::ng-deep .p-select-overlay.percentage-picker-panel.align-left-panel {
+  margin-left: -0.5rem !important;
 }
 
 ::ng-deep .percentage-picker-panel .p-select-list {
@@ -112,8 +116,8 @@
 }
 
 ::ng-deep .percentage-picker-panel .p-select-option {
-  text-align: center;
-  justify-content: center;
+  text-align: start;
+  justify-content: start;
   display: flex;
   align-items: center;
   background: transparent !important;
@@ -192,6 +196,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   z-index: 1;
+  text-align: start;
 }
 
 .floating-select.is-active label,

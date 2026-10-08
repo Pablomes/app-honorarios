@@ -9,12 +9,12 @@
             </div>
         }
         <div style="grid-column: -3 / -2;">
-            PEM Uso <br> €
+            Coste <br> €
         </div>
     </div>
 
-    <div class="table-row">
-        <simple-dropdown [boldLabel]="true" [placeholder]="'Seleccione tipo de proyecto'" [values]="projectNames()" [resetKey]="tabIndex()" (selectedValueOut)="onProjectTypeChange($event)"></simple-dropdown>
+    <div class="table-row noleft-padding">
+        <simple-dropdown [alignLeft]="true" [boldLabel]="true" [placeholder]="'Seleccione tipo de proyecto'" [values]="projectNames()" [resetKey]="tabIndex()" (selectedValueOut)="onProjectTypeChange($event)"></simple-dropdown>
 
         @for (use of getValues(projectState); track $index) {
         <div class="table-cell">
