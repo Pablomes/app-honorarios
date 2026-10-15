@@ -54,6 +54,8 @@ export class DocsActivitiesTableComponent {
 
   tabIndex: InputSignal<number> = input<number>(0);
 
+  installationPEMExists: InputSignal<boolean> = input<boolean>(false);
+
   projectTypeOutput: OutputEmitterRef<string> = output<string>();
 
   projects: InputSignal<EdificationProject[] | CivilWorksProject[] | UrbanisationProject[]> = input<EdificationProject[] | CivilWorksProject[] | UrbanisationProject[]>([]);
@@ -122,21 +124,58 @@ export class DocsActivitiesTableComponent {
     let values: number[] = this.values()[this.projectState] || [0, 0, 0, 0];
     for (let i = 0; i < values.length; i++) {
       total += values[i];
+    }0
+    return total;
+  }
+
+  totalPEMUse(useIdx: number) : number {
+    let total: number = 0;
+    for (let doc of this.enabledDocs) {
+      let values: number[] = this.values()[doc.id] || [0, 0, 0, 0];
+      if (doc.enabled[useIdx]) {
+        total += values[useIdx];
+      }
+    }
+
+    let values: number[] = this.values()[this.projectState] || [0, 0, 0, 0];
+    if (values.length > useIdx) {
+      total += values[useIdx];
+    }
+
+    return total;
+  }
+
+  totalPEMAddons() : number {
+    let total: number = 0;
+    for (let doc of this.enabledDocs) {
+      let values: number[] = this.values()[doc.id] || [0, 0, 0, 0];
+      for (let i = 0; i < values.length; i++) {
+        if (doc.enabled[i]) {
+          total += values[i];
+        }
+      }
     }
     return total;
   }
 
+  getDefaultState(docId: string): boolean {
+    if (docId === "PRIN") {
+      return this.installationPEMExists();
+    }
+  
+    return false;
+  }
+
   currentDocs() {
-    console.log("Current docs for projectState:", this.projectState, "are", this.projects().find(p => p.id === this.projectState)?.docs || []);
-    return this.projects().find(p => p.id === this.projectState)?.docs || [];
+      return this.projects().find(p => p.id === this.projectState)?.docs || [];
   }
 
   formatMoney(value: number): string {
     if (value < 100) {
       const rounded = Math.ceil(value / 10) * 10;
-      return rounded.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+      return rounded.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0, useGrouping: 'always' }); 
     }
     const rounded = Math.ceil(value / 100) * 100;
-    return rounded.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    return rounded.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0, useGrouping: 'always'});
   }
 }

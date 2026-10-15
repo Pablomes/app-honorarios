@@ -29,7 +29,8 @@
         <div [hidden]="selectedTabIndex !== 0">
           <edification-use-table
             (edificationUsesOut)="onUseCasesChanged(0, $event)"
-            (validOutput)="onValidInputChanged(0, $event)">
+            (validOutput)="onValidInputChanged(0, $event)"
+            (installationPEMExistsOut)="onInstallationPEMExistsChanged($event);">
           </edification-use-table>
         </div>
         <div [hidden]="selectedTabIndex !== 1">
@@ -52,7 +53,7 @@
       <section-honorarios [sectionTitle]="'2. CONTENIDO DEL SERVICIO'">
         <div [hidden]="selectedTabIndex !== 0">
           <docs-activities-table [tabIndex]="0" [useCases]="tabStates[0].useCases"
-          [projects]="edificationProjects" [values]="tabStates[0].calculatedValues"
+          [projects]="edificationProjects" [values]="tabStates[0].calculatedValues" [installationPEMExists]="installationPEMExists"
           (docsInfoOutput)="onDocsInfoOutput(0, $event)"
           (projectTypeOutput)="tabStates[0].projectType = $event; projectType = $event">
           </docs-activities-table>

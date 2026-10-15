@@ -1,4 +1,4 @@
-import { Component, input, InputSignal, output, OutputEmitterRef } from '@angular/core';
+import { Component, effect, input, InputSignal, output, OutputEmitterRef } from '@angular/core';
 import { CheckboxOptionComponent } from "../checkbox-option/checkbox-option.component";
 import { InfoPopupComponent } from "../info-popup/info-popup.component";
 
@@ -19,8 +19,32 @@ export class AddonRowComponent {
 
   useCases: InputSignal<number[]> = input<number[]>([]);
 
+  defaultState: InputSignal<boolean> = input<boolean>(false);
+
   addonEnabled: boolean = false;
   addonEnabledOuput: OutputEmitterRef<{id: string, enabled: boolean, useCasesEnabled: boolean[]}> = output<{id: string, enabled: boolean, useCasesEnabled: boolean[]}>();
+
+  private previousDefaultState: boolean = this.defaultState();
+
+  constructor() {
+    effect(() => {
+      const defaultState = this.defaultState();
+      if (defaultState === this.previousDefaultState) {
+        return;
+      }
+
+      this.previousDefaultState = defaultState;
+      this.addonEnabled = defaultState;
+      this.useCaseEnabled = Array(4).fill(defaultState);
+      this.emitAddonChange();
+    });
+  }
+
+  ngOnInit(): void {
+    this.addonEnabled = this.defaultState();
+    this.useCaseEnabled = Array(4).fill(this.defaultState());
+    this.emitAddonChange();
+  }
 
   private emitAddonChange(): void {
     this.addonEnabledOuput.emit({
@@ -56,9 +80,9 @@ export class AddonRowComponent {
   formatMoney(value: number): string {
     if (value < 100) {
       const rounded = Math.ceil(value / 10) * 10;
-      return rounded.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+      return rounded.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0, useGrouping: 'always' }); 
     }
     const rounded = Math.ceil(value / 100) * 100;
-    return rounded.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+    return rounded.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 0, useGrouping: 'always'});
   }
 }

@@ -1,4 +1,4 @@
-import { Component, inject, input, InputSignal, output, OutputEmitterRef } from '@angular/core';
+import { Component, effect, input, InputSignal, output, OutputEmitterRef } from '@angular/core';
 
 @Component({
   selector: 'checkbox-option',
@@ -12,6 +12,12 @@ export class CheckboxOptionComponent {
 
     selected: boolean = false;
     labelMessage : InputSignal<string> = input<string>('');
+
+    constructor() {
+      effect(() => {
+        this.selected = this.startSelected();
+      });
+    }
 
     selectOption() : void;
     selectOption(value: boolean) : void;

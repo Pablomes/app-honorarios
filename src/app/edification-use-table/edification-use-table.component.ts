@@ -25,6 +25,8 @@ export class EdificationUseTableComponent {
 
   validOutput: OutputEmitterRef<boolean[]> = output<boolean[]>();
 
+  installationPEMExistsOut: OutputEmitterRef<boolean> = output<boolean>();
+
   edificationUses: EdificationUse[] = [];
   nextEdificationUseId = 1;
 
@@ -55,6 +57,12 @@ export class EdificationUseTableComponent {
       return use.valid;
     });
     this.validOutput.emit(valid);
+
+    if (this.edificationUses.some((use) => use.installationPEM !== null && use.installationPEM > 0)) {
+      this.installationPEMExistsOut.emit(true);
+    } else {
+      this.installationPEMExistsOut.emit(false);
+    }
   }
 
   addEdificationUse() {

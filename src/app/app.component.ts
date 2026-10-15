@@ -91,6 +91,8 @@ export class AppComponent {
   documentError: string = '';
   isGeneratingDocument: boolean = false;
 
+  installationPEMExists: boolean = false;
+
   calculatedValues: { [key: string]: number[] } = {};
 
   edificationProjects: EdificationProject[] = [];
@@ -206,6 +208,11 @@ export class AppComponent {
     }
   }
 
+  onInstallationPEMExistsChanged(exists: boolean): void {
+    this.installationPEMExists = exists;
+    console.log(exists);
+  }
+
   onDocsInfoOutput(index: number, docsInfo: {projectState: string, docs: {id: string, enabled: boolean[]}[]}) : void {
     this.tabStates[index].projectState = docsInfo.projectState;
     this.tabStates[index].enabledDocs = docsInfo.docs;
@@ -284,14 +291,12 @@ export class AppComponent {
       };
     }
 
-    console.log("Sending calculation request:", request);
 
     const calculationTabIndex = this.selectedTabIndex;
     this.api.calculateHonorarios(request).then((response) => {
       if (calculationTabIndex !== this.selectedTabIndex) {
         return;
       }
-      console.log("Calculation response:", response);
 
       this.projectCost = 0;
       this.additionalDocsCost = 0;
@@ -396,16 +401,12 @@ export class AppComponent {
       };
     }
 
-    console.log("DOC: 3");
-
 
     const docRequest: DocRequest = {
       projectType: this.selectedTabIndex === 0 ? "EDIF" : this.selectedTabIndex === 1 ? "OBCI" : "URBA",
       actuationId: this.projectName,
       calculationRequest: request
     };
-
-    console.log("Generating document with request:", docRequest);
 
     // ABRE EL DOCUMENTO EN EL NAVEGADOR
     this.api.generateDoc(docRequest).then((blob) => {

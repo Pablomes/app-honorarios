@@ -1,7 +1,7 @@
 <div class="table-rows">
     <div class="table-header">
         <div class="left-align">
-            <span class="unit-with-info">Usos <info-popup [title]="'Usos'" > <div comment>Indicar los distintos usos de edificación incluidos en la obra.<br><br>Las obras de urbanización interior de la parcela deberán introducirse como zonas de actuación en la pestaña URBANIZACIÓN, según su tipología.</div> </info-popup> </span>
+            <span class="unit-with-info">Usos <info-popup [title]="'Usos'" > <div comment>Indicar los distintos usos de edificación incluidos en la obra.</div> </info-popup> </span>
         </div>
         <div>
             Nº <br>Plantas repetidas <span style="color: red;">*</span>
@@ -41,7 +41,7 @@
                 <number-input-field [isRequired]="false" [maxLength]="10" [endingSymbol]="'€'" (outputValue)="use.installationPEM = $event; this.emitValidity()"></number-input-field>
             </div>
             <div class="table-cell">
-                {{ formatBigCurrency(totalPEM(use)) }}
+                {{ formatBigCurrency(totalPEM(use) + (use.installationPEM ?? 0)) }}
             </div>
             <div class="table-cell">
                 <button

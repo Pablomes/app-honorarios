@@ -4,7 +4,7 @@
             Documentos y actividades
         </div>
         @for (use of useCases(); track $index) {
-            <div class="use-title">
+            <div class="use-title"style=>
                 {{ getUseLabel(use, $index) }}
             </div>
         }
@@ -28,8 +28,23 @@
     </div>
 
     @for (doc of currentDocs(); track doc.id) {
-        <addon-row [addonName]="doc.nombre" [addonId]="doc.id" [useCases]="getValues(doc.id)" [toggleUseCaseEnabled]="doc.toggleUseCase" [infoComment]="doc.info ?? ''"
+        <addon-row [defaultState]="getDefaultState(doc.id)" [addonName]="doc.nombre" [addonId]="doc.id" [useCases]="getValues(doc.id)" [toggleUseCaseEnabled]="doc.toggleUseCase" [infoComment]="doc.info ?? ''"
             (addonEnabledOuput)="handleAddonChange($event)"></addon-row>
     }
+
+    <div class = "table-header" style="background-color: white;">
+        <div class="table-cell bold-text left-align">Total</div>
+
+        @for (use of getValues(projectState); track $index) {
+            <div class="table-cell align-center">
+                {{ formatMoney(totalPEMUse($index)) + " €"}}
+            </div>
+        }
+
+        <div class="table-cell bold-text align-center" style="grid-column: -3 / -2;">
+            {{ formatMoney(totalPEMProject() + totalPEMAddons()) + " €"}}
+        </div>
+
+    </div>
 
 </div>

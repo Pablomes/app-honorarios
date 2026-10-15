@@ -2,6 +2,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "lib": ["ES2023", "dom"],
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,
