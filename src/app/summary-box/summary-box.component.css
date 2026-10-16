@@ -237,3 +237,38 @@
         transform: translateY(-0.5rem);
     }
 }
+
+@media (max-width: 957px) {
+    .summary-box {
+        grid-template-rows: 20% 1fr;
+        width: 100%;
+    }
+
+    .summary-cost-box {
+        grid-template-rows: 1fr 1fr;
+        padding: 0.5rem 1rem 0.5rem 1rem;
+    }
+
+    .cost-title {
+        font-size: 0.8rem;
+    }
+
+    .summary-cost {
+        font-size: 1.5rem;
+    }
+
+    .summary-display {
+        grid-template-rows: 40% 17% 1fr 17%;
+        padding: 0.5rem 1rem 0.5rem 1rem;
+        gap: 0.8rem;
+    }
+
+    .progress-bars {
+        gap: 0.3rem;
+        padding-bottom: 0.8rem;
+    }
+
+    .pem-total, .pem-percentage {
+        font-size: 0.8rem;
+    }
+}
